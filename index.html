@@ -107,15 +107,32 @@
 }
 
 
-        /* Close button (X) inside the dialogue box */
-        #closeButton {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 20px;
-            color: #ffffff;
-            cursor: pointer;
-        }
+
+To update the close button (the "X") to be positioned at the bottom right of the dialogue box, you can modify the CSS for the .close-button so that it aligns accordingly.
+
+Here’s the updated CSS with the close button positioned at the bottom-right of the dialogue box:
+
+css
+Copy
+Edit
+        
+/* Close button */
+.close-button {
+    position: absolute;
+    bottom: 10px; /* Distance from the bottom */
+    right: 10px;  /* Distance from the right */
+    font-size: 18px;
+    color: #ffffff;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    z-index: 3;
+    transition: opacity 0.3s ease;
+}
+
+.close-button:hover {
+    opacity: 0.7; /* Slightly fade on hover */
+}
 
     </style>
 </head>
