@@ -101,19 +101,18 @@
             display: none; /* Hidden by default */
             z-index: 2;
             white-space: pre-wrap; /* To handle line breaks */
-            max-height: 300px;
-            overflow-y: auto;
         }
 
-        /* Close button (X) */
+        /* Close button (X) inside the dialogue box */
         #closeButton {
             position: absolute;
             top: 5px;
-            right: 10px;
-            color: #ffffff;
+            right: 5px;
             font-size: 20px;
+            color: #ffffff;
             cursor: pointer;
         }
+
     </style>
 </head>
 <body>
@@ -129,7 +128,9 @@
 
     <!-- Dialogue box -->
     <div id="dialogueBox">
-        <span id="closeButton">X</span> <!-- Close button -->
+        <!-- Close button inside the dialogue box -->
+        <span id="closeButton">X</span>
+        <div id="dialogueContent"></div>
     </div>
 
     <!-- Background Music -->
@@ -259,7 +260,7 @@
         // Typing effect function
         function typeWriter(text, i = 0) {
             if (i < text.length) {
-                document.getElementById("dialogueBox").innerHTML += text.charAt(i);
+                document.getElementById("dialogueContent").innerHTML += text.charAt(i);
                 i++;
                 typingTimeout = setTimeout(function() {
                     typeWriter(text, i);
@@ -276,7 +277,7 @@
             if (!isDialogueOpen) {
                 isDialogueOpen = true;
                 dialogueBox.style.display = "block";  // Show dialogue box
-                dialogueBox.innerHTML = '<span id="closeButton">X</span>'; // Clear the text and add the X button
+                document.getElementById("dialogueContent").innerHTML = ''; // Clear existing text
                 isTyping = true;
                 typeWriter(dialogueText);  // Start typing
             } else if (!isTyping) {
@@ -292,15 +293,12 @@
             }
         });
 
-        // Close the dialogue box when clicking the close button (X)
+        // Close dialogue box when clicking on 'X' button
         closeButton.addEventListener("click", function() {
-            document.getElementById("dialogueBox").style.display = "none";
+            let dialogueBox = document.getElementById("dialogueBox");
+            clearTimeout(typingTimeout);  // Stop typing effect if any
+            dialogueBox.style.display = "none";  // Hide dialogue box
             isDialogueOpen = false;
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
-            } else {
-                backgroundMusic.pause();
-            }
         });
 
         init(); // Initialize the scene
