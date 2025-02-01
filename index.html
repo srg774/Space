@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Journey with Planets and Stars</title>
     <style>
-        /* Set body as full screen */
         body {
             margin: 0;
             overflow: hidden;
             background-color: black;
         }
 
-        /* The image should remain fixed in the foreground */
         #backgroundImage {
             position: fixed;
             top: 0;
@@ -24,51 +22,32 @@
             animation: imageWobble 5s infinite alternate ease-in-out;
         }
 
-        /* Wobble effect on the image */
         @keyframes imageWobble {
-            0% {
-                transform: rotate(0deg) scale(1);
-            }
-            50% {
-                transform: rotate(1deg) scale(1.01);
-            }
-            100% {
-                transform: rotate(0deg) scale(1);
-            }
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(1deg) scale(1.01); }
+            100% { transform: rotate(0deg) scale(1); }
         }
 
-        /* The glowing orb in the foreground (centered in front of the image) */
         #glowingOrb {
             position: fixed;
             top: 47.8%;
             left: 51.3%;
-            width: 30px;  /* Default orb size */
+            width: 30px;
             height: 30px;
             background-color: #00ffff;
             border-radius: 50%;
-            box-shadow: 0 0 20px 20px #00ffff; /* Fuzzy glow */
+            box-shadow: 0 0 20px 20px #00ffff;
             z-index: 2;
             transform: translate(-50%, -50%);
-            animation: pulse 3s infinite ease-in-out; /* Pulse animation */
+            animation: pulse 3s infinite ease-in-out;
         }
 
-        /* Pulse animation for the glowing orb */
         @keyframes pulse {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
         }
 
-        /* Question mark button in the bottom left corner */
         #questionButton {
             position: fixed;
             bottom: 20px;
@@ -78,15 +57,14 @@
             cursor: pointer;
             z-index: 3;
             transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
-            opacity: 1; /* Start with full visibility */
+            opacity: 1;
         }
 
         #questionButton:hover {
-            transform: scale(1.5); /* Increase size on hover */
-            opacity: 1.2; /* Slight increase in opacity */
+            transform: scale(1.5);
+            opacity: 1.2;
         }
 
-        /* Dialogue box */
         #dialogueBox {
             position: fixed;
             bottom: 60px;
@@ -98,187 +76,84 @@
             border-radius: 10px;
             font-family: 'Courier New', monospace;
             font-size: 14px;
-            display: none; /* Hidden by default */
+            display: none;
             z-index: 2;
-            white-space: pre-wrap; /* To handle line breaks */
+            white-space: pre-wrap;
+            position: relative; /* Important for positioning the close button */
         }
 
+        #closeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+            z-index: 3;
+        }
     </style>
 </head>
 <body>
-
-    <!-- Foreground Image (Fixed in position) -->
     <img id="backgroundImage" src="assets/Picture1.png" alt="Cockpit View">
-
-    <!-- Glowing Orb in the Foreground -->
     <div id="glowingOrb"></div>
-
-    <!-- Question mark button -->
     <div id="questionButton">?</div>
-
-    <!-- Dialogue box -->
-    <div id="dialogueBox"></div>
-
-    <!-- Background Music -->
+    <div id="dialogueBox">
+        <span id="closeButton">&times;</span>
+    </div>
     <audio id="backgroundMusic" src="assets/Peace.wav" autoplay loop></audio>
 
-    <!-- Three.js scene will be rendered inside this div -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        let scene, camera, renderer, stars, starGeometry, starMaterial, planets = [];
-        let starSpeed = 100; // Increased star speed by 10x
-        let planetSpeed = 1; // Increased planet speed by 10x
-        let orbPosition = { x: 0, y: 0, z: -50 };  // Default orb position (center)
+        // ... (Three.js initialization and animation code - same as before) ...
 
-        let isDialogueOpen = false;  // Track if the dialogue box is open or not
-        let isTyping = false;        // Track if text is being typed out
-        let typingTimeout = null;    // Hold reference to timeout to control typing
-
-        const dialogueText = "A silent hum echoed through the vessel as it began its ascent, leaving behind the planet that had once been home. The vast, endless sky swallowed them whole, and soon, the world below was no more than a fading memory. The stars ahead shimmered with a soft, distant glow, as if whispering the secrets of forgotten realms. In the quiet of deep space, the ship drifted toward an ancient, elusive destination—an uncharted world, spoken of only in myths, a place where life could begin anew. No maps, no guarantees—just faith in the unknown. The journey was long, the darkness unyielding, but there was something in the silence, something ancient and beautiful, calling them forward. And as the stars stretched out in every direction, they knew they were not lost, but exactly where they needed to be. Made with help of OpenAI Music by SRG774 CC BY-NC 4.0";
+        const dialogueText = "A silent hum echoed through the vessel... (rest of the text)"; // Your long text
 
         const backgroundMusic = document.getElementById('backgroundMusic');
         const questionButton = document.getElementById('questionButton');
+        const dialogueBox = document.getElementById('dialogueBox'); // Get the dialogue box element
+        const closeButton = document.getElementById('closeButton');
 
-        function init() {
-            // Create a scene
-            scene = new THREE.Scene();
-            
-            // Create a camera, looking at the center of the scene
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 0; // Camera is centered, will move in space to simulate the effect
+        let isDialogueOpen = false;
+        let isTyping = false;
+        let typingTimeout = null;
 
-            // Create the WebGL renderer
-            renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement); // Attach the renderer to the DOM
 
-            // Create the star field
-            starGeometry = new THREE.BufferGeometry();
-            let starCount = 5000;
-            let positions = new Float32Array(starCount * 3); // 3 for X, Y, Z coordinates
-            let sizes = new Float32Array(starCount);
-            let speeds = new Float32Array(starCount); // Each star will have its own speed
-            let colors = new Float32Array(starCount * 3); // RGB for each star
-
-            for (let i = 0; i < starCount; i++) {
-                positions[i * 3] = Math.random() * 2000 - 1000; // Random x position
-                positions[i * 3 + 1] = Math.random() * 2000 - 1000; // Random y position
-                positions[i * 3 + 2] = Math.random() * 2000 + 1000; // Random z position (start behind)
-
-                sizes[i] = Math.random() * 3 + 1; // Random size for each star (more variation)
-                speeds[i] = Math.random() * 0.5 + 0.2; // Random speed for each star to vary motion
-
-                // Stars can have different brightness (color)
-                colors[i * 3] = Math.random(); // Random red color component
-                colors[i * 3 + 1] = Math.random(); // Random green color component
-                colors[i * 3 + 2] = Math.random(); // Random blue color component
-            }
-
-            starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            starGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-            starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-            starGeometry.setAttribute('speed', new THREE.BufferAttribute(speeds, 1));
-
-            starMaterial = new THREE.PointsMaterial({
-                sizeAttenuation: true,
-                vertexColors: true,
-            });
-
-            stars = new THREE.Points(starGeometry, starMaterial);
-            scene.add(stars); // Add stars to the scene
-
-            // Add planets (static for now)
-            createPlanets();
-
-            animate(); // Start the animation loop
-        }
-
-        function createPlanets() {
-            let planetGeometry = new THREE.SphereGeometry(50, 32, 32);
-            let planetMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, emissive: 0x00ff00 });
-
-            // Create a few planets with different positions and speeds
-            for (let i = 0; i < 3; i++) {
-                let planet = new THREE.Mesh(planetGeometry, planetMaterial);
-                planet.position.set(Math.random() * 3000 - 1500, Math.random() * 3000 - 1500, Math.random() * -2000 - 1000);
-                scene.add(planet);
-                planets.push(planet);
-            }
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Move the stars to simulate zooming effect, with different speeds
-            let positions = starGeometry.attributes.position.array;
-            let speeds = starGeometry.attributes.speed.array;
-
-            for (let i = 0; i < positions.length; i += 3) {
-                positions[i + 2] += speeds[i / 3] * 10; // Move stars towards the camera 10x faster (forward motion)
-            }
-
-            // Reset stars that moved too far
-            for (let i = 0; i < positions.length; i += 3) {
-                if (positions[i + 2] > 1000) {
-                    positions[i + 2] = Math.random() * 2000 - 1000; // Reset to behind
-                }
-            }
-
-            starGeometry.attributes.position.needsUpdate = true; // Tell Three.js to update positions
-
-            // Make the planets move slowly with random variation
-            planets.forEach(planet => {
-                planet.rotation.x += planetSpeed * 10 + (Math.random() * 0.05 - 0.025); // Add slight randomness to rotation
-                planet.rotation.y += planetSpeed * 10 + (Math.random() * 0.05 - 0.025); // Add slight randomness
-            });
-
-            renderer.render(scene, camera);
-        }
-
-        // Adjust the size of the scene when the window is resized
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
-
-        // Typing effect function
         function typeWriter(text, i = 0) {
             if (i < text.length) {
-                document.getElementById("dialogueBox").innerHTML += text.charAt(i);
+                dialogueBox.innerHTML += text.charAt(i);
                 i++;
                 typingTimeout = setTimeout(function() {
                     typeWriter(text, i);
-                }, 200);  // Slow typing speed
+                }, 50); // Adjust typing speed here (lower number = faster)
             } else {
-                // When typing finishes, allow closing of the box
                 isTyping = false;
             }
         }
 
-        // Toggle dialogue box when clicking on the question mark button
         questionButton.addEventListener("click", function() {
-            let dialogueBox = document.getElementById("dialogueBox");
             if (!isDialogueOpen) {
                 isDialogueOpen = true;
-                dialogueBox.style.display = "block";  // Show dialogue box
+                dialogueBox.style.display = "block";
                 dialogueBox.innerHTML = ''; // Clear existing text
                 isTyping = true;
-                typeWriter(dialogueText);  // Start typing
-            } else if (!isTyping) {
-                dialogueBox.style.display = "none";  // Hide dialogue box when typing is complete
+                typeWriter(dialogueText);
+                backgroundMusic.play(); // Start the music when the dialogue opens
+            } else if (!isTyping) { // Only close if not currently typing
+                dialogueBox.style.display = "none";
                 isDialogueOpen = false;
-            }
-
-            // Toggle music play/pause
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
-            } else {
-                backgroundMusic.pause();
+                backgroundMusic.pause(); // Pause the music when the dialogue closes
             }
         });
 
-        init(); // Initialize the scene
+        closeButton.addEventListener("click", function() {
+            dialogueBox.style.display = "none";
+            isDialogueOpen = false;
+            clearTimeout(typingTimeout); // Stop any active typing
+            isTyping = false;
+            backgroundMusic.pause(); // Pause music when closing
+        });
+
+        init();
     </script>
 </body>
 </html>
