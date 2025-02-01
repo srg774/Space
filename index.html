@@ -86,6 +86,17 @@
             opacity: 1.2; /* Slight increase in opacity */
         }
 
+        /* Close "X" button */
+        #closeButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 40px;
+            color: #ffffff;
+            cursor: pointer;
+            z-index: 4;
+        }
+
         /* Dialogue box */
         #dialogueBox {
             position: fixed;
@@ -103,17 +114,6 @@
             white-space: pre-wrap; /* To handle line breaks */
         }
 
-        /* Close button in the top-right corner of the dialogue box */
-        #closeButton {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 20px;
-            color: #ffffff;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-        }
-
     </style>
 </head>
 <body>
@@ -127,10 +127,11 @@
     <!-- Question mark button -->
     <div id="questionButton">?</div>
 
+    <!-- Close button (X) -->
+    <div id="closeButton">X</div>
+
     <!-- Dialogue box -->
-    <div id="dialogueBox">
-        <span id="closeButton">X</span>
-    </div>
+    <div id="dialogueBox"></div>
 
     <!-- Background Music -->
     <audio id="backgroundMusic" src="assets/Peace.wav" autoplay loop></audio>
@@ -151,7 +152,7 @@
 
         const backgroundMusic = document.getElementById('backgroundMusic');
         const questionButton = document.getElementById('questionButton');
-        const closeButton = document.getElementById('closeButton'); // New close button
+        const closeButton = document.getElementById('closeButton'); // Close button
 
         function init() {
             // Create a scene
@@ -292,12 +293,10 @@
             }
         });
 
-        // Close dialogue box when clicking the 'X' button
+        // Close dialogue box when clicking the close "X" button
         closeButton.addEventListener("click", function() {
-            let dialogueBox = document.getElementById("dialogueBox");
-            dialogueBox.style.display = "none";  // Hide the dialogue box
+            document.getElementById("dialogueBox").style.display = "none"; // Hide the dialogue box
             isDialogueOpen = false;
-            isTyping = false;
         });
 
         init(); // Initialize the scene
