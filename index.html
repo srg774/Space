@@ -86,17 +86,6 @@
             opacity: 1.2; /* Slight increase in opacity */
         }
 
-        /* Close "X" button */
-        #closeButton {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 40px;
-            color: #ffffff;
-            cursor: pointer;
-            z-index: 4;
-        }
-
         /* Dialogue box */
         #dialogueBox {
             position: fixed;
@@ -112,8 +101,19 @@
             display: none; /* Hidden by default */
             z-index: 2;
             white-space: pre-wrap; /* To handle line breaks */
+            max-height: 300px;
+            overflow-y: auto;
         }
 
+        /* Close button (X) */
+        #closeButton {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -127,11 +127,10 @@
     <!-- Question mark button -->
     <div id="questionButton">?</div>
 
-    <!-- Close button (X) -->
-    <div id="closeButton">X</div>
-
     <!-- Dialogue box -->
-    <div id="dialogueBox"></div>
+    <div id="dialogueBox">
+        <span id="closeButton">X</span> <!-- Close button -->
+    </div>
 
     <!-- Background Music -->
     <audio id="backgroundMusic" src="assets/Peace.wav" autoplay loop></audio>
@@ -152,7 +151,7 @@
 
         const backgroundMusic = document.getElementById('backgroundMusic');
         const questionButton = document.getElementById('questionButton');
-        const closeButton = document.getElementById('closeButton'); // Close button
+        const closeButton = document.getElementById('closeButton');
 
         function init() {
             // Create a scene
@@ -277,7 +276,7 @@
             if (!isDialogueOpen) {
                 isDialogueOpen = true;
                 dialogueBox.style.display = "block";  // Show dialogue box
-                dialogueBox.innerHTML = ''; // Clear existing text
+                dialogueBox.innerHTML = '<span id="closeButton">X</span>'; // Clear the text and add the X button
                 isTyping = true;
                 typeWriter(dialogueText);  // Start typing
             } else if (!isTyping) {
@@ -293,10 +292,15 @@
             }
         });
 
-        // Close dialogue box when clicking the close "X" button
+        // Close the dialogue box when clicking the close button (X)
         closeButton.addEventListener("click", function() {
-            document.getElementById("dialogueBox").style.display = "none"; // Hide the dialogue box
+            document.getElementById("dialogueBox").style.display = "none";
             isDialogueOpen = false;
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+            } else {
+                backgroundMusic.pause();
+            }
         });
 
         init(); // Initialize the scene
