@@ -11,59 +11,12 @@
             background-color: black;
         }
 
-        #backgroundImage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 1;
-            animation: imageWobble 5s infinite alternate ease-in-out;
-        }
-
-        @keyframes imageWobble {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(1deg) scale(1.01); }
-            100% { transform: rotate(0deg) scale(1); }
-        }
-
-        #glowingOrb {
-            position: fixed;
-            top: 47.8%;
-            left: 51.3%;
-            width: 30px;
-            height: 30px;
-            background-color: #00ffff;
-            border-radius: 50%;
-            box-shadow: 0 0 20px 20px #00ffff;
-            z-index: 2;
-            transform: translate(-50%, -50%);
-            animation: pulse 3s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-        }
-
-        #questionButton {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            font-size: 50px;
-            color: #00ffff;
-            cursor: pointer;
-            z-index: 3;
-            transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
-            opacity: 1;
-        }
-
-        #questionButton:hover {
-            transform: scale(1.5);
-            opacity: 1.2;
-        }
+        #backgroundImage { /* ... (Existing CSS styles) ... */ }
+        @keyframes imageWobble { /* ... (Existing CSS styles) ... */ }
+        #glowingOrb { /* ... (Existing CSS styles) ... */ }
+        @keyframes pulse { /* ... (Existing CSS styles) ... */ }
+        #questionButton { /* ... (Existing CSS styles) ... */ }
+        #questionButton:hover { /* ... (Existing CSS styles) ... */ }
 
         #dialogueBox {
             position: fixed;
@@ -76,10 +29,10 @@
             border-radius: 10px;
             font-family: 'Courier New', monospace;
             font-size: 14px;
-            display: none;
-            z-index: 2;
             white-space: pre-wrap;
-            position: relative; /* Important for positioning the close button */
+            display: none; /* Initially hidden */
+            z-index: 2;
+            position: relative; /* For close button positioning */
         }
 
         #closeButton {
@@ -98,25 +51,23 @@
     <div id="glowingOrb"></div>
     <div id="questionButton">?</div>
     <div id="dialogueBox">
-        <span id="closeButton">&times;</span>
-    </div>
+        <span id="closeButton">&times;</span> </div>
     <audio id="backgroundMusic" src="assets/Peace.wav" autoplay loop></audio>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // ... (Three.js initialization and animation code - same as before) ...
+        // ... (Your existing Three.js initialization and animation code) ...
 
-        const dialogueText = "A silent hum echoed through the vessel... (rest of the text)"; // Your long text
+        const dialogueText = "A silent hum echoed... (Your dialogue text)";
 
         const backgroundMusic = document.getElementById('backgroundMusic');
         const questionButton = document.getElementById('questionButton');
-        const dialogueBox = document.getElementById('dialogueBox'); // Get the dialogue box element
-        const closeButton = document.getElementById('closeButton');
+        const dialogueBox = document.getElementById('dialogueBox');
+        const closeButton = document.getElementById('closeButton'); // Get reference immediately
 
         let isDialogueOpen = false;
         let isTyping = false;
         let typingTimeout = null;
-
 
         function typeWriter(text, i = 0) {
             if (i < text.length) {
@@ -124,7 +75,7 @@
                 i++;
                 typingTimeout = setTimeout(function() {
                     typeWriter(text, i);
-                }, 50); // Adjust typing speed here (lower number = faster)
+                }, 50); // Adjust typing speed
             } else {
                 isTyping = false;
             }
@@ -134,24 +85,29 @@
             if (!isDialogueOpen) {
                 isDialogueOpen = true;
                 dialogueBox.style.display = "block";
-                dialogueBox.innerHTML = ''; // Clear existing text
+                dialogueBox.innerHTML = '<span id="closeButton">&times;</span>'; // Add close button
+
+                const closeButton = document.getElementById('closeButton'); // Get after adding
+                dialogueBox.innerHTML = ""; // Clear existing text (including the span)
                 isTyping = true;
                 typeWriter(dialogueText);
-                backgroundMusic.play(); // Start the music when the dialogue opens
-            } else if (!isTyping) { // Only close if not currently typing
+                backgroundMusic.play();
+
+                closeButton.addEventListener("click", function() {
+                    dialogueBox.style.display = "none";
+                    isDialogueOpen = false;
+                    clearTimeout(typingTimeout);
+                    isTyping = false;
+                    backgroundMusic.pause();
+                });
+
+            } else if (!isTyping) {
                 dialogueBox.style.display = "none";
                 isDialogueOpen = false;
-                backgroundMusic.pause(); // Pause the music when the dialogue closes
+                backgroundMusic.pause();
             }
         });
 
-        closeButton.addEventListener("click", function() {
-            dialogueBox.style.display = "none";
-            isDialogueOpen = false;
-            clearTimeout(typingTimeout); // Stop any active typing
-            isTyping = false;
-            backgroundMusic.pause(); // Pause music when closing
-        });
 
         init();
     </script>
