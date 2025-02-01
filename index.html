@@ -87,52 +87,31 @@
         }
 
         /* Dialogue box */
-    #dialogueBox {
-    position: fixed;
-    bottom: 60px;
-    left: 20px;
-    width: 300px;
-    height: 200px; /* Fixed height to enable scrolling */
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 10px;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    display: none; /* Hidden by default */
-    z-index: 2;
-    white-space: pre-wrap; /* To handle line breaks */
-    overflow-y: auto; /* Enables vertical scrolling */
-    max-height: 80vh; /* Max height as a percentage of viewport */
-}
+        #dialogueBox {
+            position: fixed;
+            bottom: 60px;
+            left: 20px;
+            width: 300px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            display: none; /* Hidden by default */
+            z-index: 2;
+            white-space: pre-wrap; /* To handle line breaks */
+        }
 
-
-
-To update the close button (the "X") to be positioned at the bottom right of the dialogue box, you can modify the CSS for the .close-button so that it aligns accordingly.
-
-Here’s the updated CSS with the close button positioned at the bottom-right of the dialogue box:
-
-css
-Copy
-Edit
-        
-/* Close button */
-#closeButton {
-    position: absolute;
-    bottom: 10px; /* Distance from the bottom */
-    right: 10px;  /* Distance from the right */
-    font-size: 18px;
-    color: #ffffff;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    z-index: 3;
-    transition: opacity 0.3s ease;
-}
-
-#closeButton:hover {
-    opacity: 0.7; /* Slightly fade on hover */
-}
+        /* Close button (X) inside the dialogue box */
+        #closeButton {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 20px;
+            color: #ffffff;
+            cursor: pointer;
+        }
 
     </style>
 </head>
