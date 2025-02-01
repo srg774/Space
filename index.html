@@ -101,18 +101,17 @@
             display: none; /* Hidden by default */
             z-index: 2;
             white-space: pre-wrap; /* To handle line breaks */
-            padding-top: 20px; /* Add space for close button */
         }
 
-        /* Close button ('x') */
+        /* Close button (X) in the top-right corner of the dialogue box */
         #closeButton {
             position: absolute;
             top: 10px;
             right: 10px;
             font-size: 20px;
-            color: #fff;
+            color: #ffffff;
             cursor: pointer;
-            font-weight: bold;
+            z-index: 3;
         }
 
     </style>
@@ -130,7 +129,8 @@
 
     <!-- Dialogue box -->
     <div id="dialogueBox">
-        <div id="closeButton">x</div> <!-- Close button -->
+        <span id="closeButton">X</span>
+        <!-- Dialogue text will appear here -->
     </div>
 
     <!-- Background Music -->
@@ -152,7 +152,7 @@
 
         const backgroundMusic = document.getElementById('backgroundMusic');
         const questionButton = document.getElementById('questionButton');
-        const closeButton = document.getElementById('closeButton'); // Reference to close button
+        const closeButton = document.getElementById('closeButton');
 
         function init() {
             // Create a scene
@@ -277,7 +277,7 @@
             if (!isDialogueOpen) {
                 isDialogueOpen = true;
                 dialogueBox.style.display = "block";  // Show dialogue box
-                dialogueBox.innerHTML = '<div id="closeButton">x</div>'; // Insert close button
+                dialogueBox.innerHTML = ''; // Clear existing text
                 isTyping = true;
                 typeWriter(dialogueText);  // Start typing
             } else if (!isTyping) {
@@ -293,10 +293,9 @@
             }
         });
 
-        // Close the dialogue box when the 'x' is clicked
-        closeButton.addEventListener("click", function(event) {
-            event.stopPropagation();  // Prevent triggering the questionButton click
-            document.getElementById("dialogueBox").style.display = "none";  // Hide the dialogue box
+        // Close the dialogue box when the X is clicked
+        closeButton.addEventListener("click", function() {
+            document.getElementById("dialogueBox").style.display = "none";
             isDialogueOpen = false;
         });
 
