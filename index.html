@@ -103,15 +103,15 @@
             white-space: pre-wrap; /* To handle line breaks */
         }
 
-        /* Close button (X) in the top-right corner of the dialogue box */
+        /* Close button (X) in the top right corner of the dialogue box */
         #closeButton {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 5px;
+            right: 5px;
             font-size: 20px;
-            color: #ffffff;
+            color: white;
             cursor: pointer;
-            z-index: 3;
+            font-family: 'Courier New', monospace;
         }
 
     </style>
@@ -129,8 +129,9 @@
 
     <!-- Dialogue box -->
     <div id="dialogueBox">
-        <span id="closeButton">X</span>
-        <!-- Dialogue text will appear here -->
+        <!-- Close Button -->
+        <div id="closeButton">X</div>
+        <!-- Text content will be inserted here by JavaScript -->
     </div>
 
     <!-- Background Music -->
@@ -293,9 +294,10 @@
             }
         });
 
-        // Close the dialogue box when the X is clicked
+        // Close the dialogue box when clicking the 'X'
         closeButton.addEventListener("click", function() {
-            document.getElementById("dialogueBox").style.display = "none";
+            let dialogueBox = document.getElementById("dialogueBox");
+            dialogueBox.style.display = "none";  // Hide dialogue box
             isDialogueOpen = false;
         });
 
