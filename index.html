@@ -86,23 +86,13 @@
             opacity: 1.2; /* Slight increase in opacity */
         }
 
-
-Ah, I see! You want the "X" button to be positioned at the bottom right of the dialogue box, not just at the bottom of the screen. Let's fix that by updating the layout for the #dialogueBox and positioning the close button accordingly.
-
-Here’s the updated approach:
-
-CSS Update:
-css
-Copy
-Edit
-        
-/* Dialogue box */
-#dialogueBox {
+        /* Dialogue box */
+    #dialogueBox {
     position: fixed;
     bottom: 60px;
     left: 20px;
     width: 300px;
-    max-height: 80vh; /* Max height as a percentage of viewport */
+    height: 200px; /* Fixed height to enable scrolling */
     background-color: rgba(0, 0, 0, 0.7);
     color: #ffffff;
     padding: 10px;
@@ -113,7 +103,7 @@ Edit
     z-index: 2;
     white-space: pre-wrap; /* To handle line breaks */
     overflow-y: auto; /* Enables vertical scrolling */
-    position: relative; /* Added to position the close button relative to the box */
+    max-height: 80vh; /* Max height as a percentage of viewport */
 }
 
 
@@ -127,10 +117,10 @@ Copy
 Edit
         
 /* Close button */
-.close-button {
+#closeButton {
     position: absolute;
-    top: 10px; /* Distance from the top of the box */
-    right: 10px; /* Distance from the right of the box */
+    bottom: 10px; /* Distance from the bottom */
+    right: 10px;  /* Distance from the right */
     font-size: 18px;
     color: #ffffff;
     cursor: pointer;
@@ -140,7 +130,7 @@ Edit
     transition: opacity 0.3s ease;
 }
 
-.close-button:hover {
+#closeButton:hover {
     opacity: 0.7; /* Slightly fade on hover */
 }
 
