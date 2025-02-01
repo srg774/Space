@@ -18,8 +18,6 @@ Check out the live demo here: [Voyage into the Unknown - Space Animation](https:
 3. **Planets**: Static planets orbit the scene with slow, randomized rotations to add depth to the environment.
 4. **Dialogue**: When you click the **?** icon, a dialogue box appears with a story about the voyage, typed out gradually to give the feeling of a live narration.
 
-## Demo
 
-Visit the live demo here: [Voyage into the Unknown - Space Animation](https://srg774.github.io/Space/)
 
 
