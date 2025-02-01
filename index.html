@@ -87,21 +87,25 @@
         }
 
         /* Dialogue box */
-        #dialogueBox {
-            position: fixed;
-            bottom: 60px;
-            left: 20px;
-            width: 300px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #ffffff;
-            padding: 10px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            display: none; /* Hidden by default */
-            z-index: 2;
-            white-space: pre-wrap; /* To handle line breaks */
-        }
+    #dialogueBox {
+    position: fixed;
+    bottom: 60px;
+    left: 20px;
+    width: 300px;
+    height: 200px; /* Fixed height to enable scrolling */
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    display: none; /* Hidden by default */
+    z-index: 2;
+    white-space: pre-wrap; /* To handle line breaks */
+    overflow-y: auto; /* Enables vertical scrolling */
+    max-height: 80vh; /* Max height as a percentage of viewport */
+}
+
 
         /* Close button (X) inside the dialogue box */
         #closeButton {
