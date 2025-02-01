@@ -103,13 +103,13 @@
             white-space: pre-wrap; /* To handle line breaks */
         }
 
-        /* Close button (X) in the top right corner of the dialogue box */
+        /* Close button in the top-right corner of the dialogue box */
         #closeButton {
             position: absolute;
             top: 5px;
             right: 5px;
             font-size: 20px;
-            color: white;
+            color: #ffffff;
             cursor: pointer;
             font-family: 'Courier New', monospace;
         }
@@ -129,9 +129,7 @@
 
     <!-- Dialogue box -->
     <div id="dialogueBox">
-        <!-- Close Button -->
-        <div id="closeButton">X</div>
-        <!-- Text content will be inserted here by JavaScript -->
+        <span id="closeButton">X</span>
     </div>
 
     <!-- Background Music -->
@@ -153,7 +151,7 @@
 
         const backgroundMusic = document.getElementById('backgroundMusic');
         const questionButton = document.getElementById('questionButton');
-        const closeButton = document.getElementById('closeButton');
+        const closeButton = document.getElementById('closeButton'); // New close button
 
         function init() {
             // Create a scene
@@ -294,11 +292,12 @@
             }
         });
 
-        // Close the dialogue box when clicking the 'X'
+        // Close dialogue box when clicking the 'X' button
         closeButton.addEventListener("click", function() {
             let dialogueBox = document.getElementById("dialogueBox");
-            dialogueBox.style.display = "none";  // Hide dialogue box
+            dialogueBox.style.display = "none";  // Hide the dialogue box
             isDialogueOpen = false;
+            isTyping = false;
         });
 
         init(); // Initialize the scene
