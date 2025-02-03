@@ -189,7 +189,7 @@
         function typeWriter(text, i = 0) {
             if (i < text.length) {
                 document.getElementById("dialogueContent").innerHTML += text.charAt(i);
-                typingTimeout = setTimeout(() => typeWriter(text, i + 1), 175);
+                typingTimeout = setTimeout(() => typeWriter(text, i + 1), 161);
             } else {
                 isTyping = false;
                 closeTimeout = setTimeout(fadeOutDialogue, 5000);
